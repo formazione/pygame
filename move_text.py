@@ -38,10 +38,10 @@ def show_timer(max_frame_rate):
 
 
 # each line is a slide
-txt_slides = """This is
-a text
-seen with timing
-Bye
+txt_slides = """When this text
+will touch the right side
+of the screen
+it will go back to start
 """.splitlines()
 
 cnt = 0
@@ -55,7 +55,7 @@ def mainloop(max_frame_rate=60):
 		screen.fill(0) # clear the screen with black
 		show_timer(max_frame_rate)
 		text_on_screen(txt_slides[txt_cnt], fps_font,
-			int(100+cnt),
+			int(0+cnt),
 			100)
 
 		cnt += .5
