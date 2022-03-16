@@ -3,13 +3,6 @@ import sys
 
 
 ''' Example to show fps with pygame 12.01.2022 - python 3.10 '''
-def len_surf(text, font):
-	''' returns the length of a text surface '''
-	surface = font.render(text, 1, pygame.Color("white"))
-	lenght = surface.get_width()
-	surface = None
-	return lenght
-
 
 def text_on_screen(content, font, w, h):
 	''' Renders content with font '''
@@ -17,16 +10,20 @@ def text_on_screen(content, font, w, h):
 	text_width = fps_surface.get_width()
 	if w + text_width > screen.get_width():
 		start = 0
+		# measure the lenght of the words so that goes to next line
+		# when reaches the lenght of the screen
 		for word in content.split():
 			wr = font.render(word + " ", 1, pygame.Color("white"))
 			if w + start + wr.get_width() < screen.get_width():
-				screen.blit(wr, (w + start, h))
-				start += wr.get_width()
-			else:
-				start = 0
-				h = h + wr.get_height()
-				screen.blit(wr, (w + start, h))
-				start += wr.get_width()
+				for wrd in word.split():
+					wrds = font.render(wrd + " ", 1, pygame.Color("white"))
+					screen.blit(wrds, (w + start, h))
+					start += wrds.get_width()
+			# else:
+			# 	start = 0
+			# 	h = h + wr.get_height()
+			# 	screen.blit(wr, (w + start, h))
+			# 	start += wr.get_width()
 	else:
 		screen.blit(fps_surface, (w, h))
 
@@ -41,14 +38,12 @@ def show_timer(max_frame_rate):
 	timer += 1 #                                        UPDATE COUNTER
 
 
-with open("text.txt", 'r', encoding="utf-8") as file:
-	txt_slides = file.read()
-txt_slides = txt_slides.split("\n")
-# txt_slides = """This is
-# a text
-# seen with timing
-# Bye
-# """.splitlines()
+# each line is a slide
+txt_slides = """This is sdasddddddddddddddddddddddddd
+a text
+seen with timing
+Bye
+""".splitlines()
 
 
 txt_cnt = 0 # counter for the slides in txt variables (lines)
@@ -59,23 +54,15 @@ def mainloop(max_frame_rate=60):
 	# while loop that makes things go on on screen
 	while True:
 		screen.fill(0) # clear the screen with black
-		# show_timer(max_frame_rate)
-		text_on_screen("Indici di Bilancio", fps_font, 0, 0)
-		text_on_screen("Slide " + str(txt_cnt+1), fps_font, 700, 0)
-		text_on_screen("Clicca un tasto per andare avanti", little_font, 0, 60)
+		show_timer(max_frame_rate)
+		# send a row of text each time
 		text_on_screen(txt_slides[txt_cnt], fps_font, 100, 100)
 		for event in pygame.event.get(): #                   USER EVENTS HANDLER
 			if event.type == pygame.QUIT:
 				pygame.quit()
 				sys.exit()
-			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_ESCAPE:
-					pygame.quit()
-					sys.exit()
-			if event.type == pygame.KEYDOWN:	
-				txt_cnt += 1
-		if txt_cnt > len(txt_slides) - 2:
-			text_on_screen("Fine. Premi per ricominciare", little_font, screen.get_width()//2 - len_surf("Fine. Premi per ricominciare", little_font)//2, screen.get_height()//2)
+		if timer % 60 == 0:
+			txt_cnt += 1
 		if txt_cnt > len(txt_slides) - 1:
 			txt_cnt = 0
 		clock.tick(max_frame_rate) #                         MAX FRAME RATE (60 is default)
@@ -84,9 +71,8 @@ def mainloop(max_frame_rate=60):
 
 # the engine initialization
 pygame.init()
-screen = pygame.display.set_mode((1000, 800)) #             the screen surface
+screen = pygame.display.set_mode((600, 400)) #             the screen surface
 size = 60
 fps_font = pygame.font.SysFont("Arial", size) #                font
-little_font = pygame.font.SysFont("Arial", 12) #                font
 clock = pygame.time.Clock() #                                FRAME RATE OBJECT
 mainloop()

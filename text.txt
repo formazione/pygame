@@ -1,3 +1,10 @@
-This is an external
-file
-For my presentation program
+Indici di Bilancio
+Servono ad interpretare il bilancio.
+I dati del bilancio, infatti, possono essere meglio interpretati con degli indici
+Cosa sono gli indici?
+Sono dei rapporti (delle divisioni) tra valori del bilancio.
+Ci sono 3 tipi di indici:
+Indici di redditività
+Indici patrimoniali
+Indici finanziari
+Iniziamo con quelli di redditività
